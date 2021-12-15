@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+    <session-factory>
+        <property name="connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+        <property name="connection.url">jdbc:mysql://localhost:3306/online_shop_db</property>
+        <property name="connection.username">root</property>
+        <property name="connection.password">61378</property>
+        <property name="connection.shutdown">true</property>
+
+        <property name="dialect">org.hibernate.dialect.MySQL8Dialect</property>
+        <property name="hibernate.hbm2ddl.auto">create</property>
+        <property name="connection.pool_size">10</property>
+        <property name="show_sql">true</property>
+        <property name="format_sql">true</property>
+
+        <mapping class="ir.maktab58.onlineshop.models.Cart"/>
+        <mapping class="ir.maktab58.onlineshop.models.Customer"/>
+        <mapping class="ir.maktab58.onlineshop.models.products.Product"/>
+        <mapping class="ir.maktab58.onlineshop.models.products.Shoe"/>
+        <mapping class="ir.maktab58.onlineshop.models.products.electronicdevices.ElectronicDevices"/>
+        <mapping class="ir.maktab58.onlineshop.models.products.electronicdevices.Radio"/>
+        <mapping class="ir.maktab58.onlineshop.models.products.electronicdevices.Television"/>
+        <mapping class="ir.maktab58.onlineshop.models.products.readingItems.ReadingItems"/>
+        <mapping class="ir.maktab58.onlineshop.models.products.readingItems.Book"/>
+        <mapping class="ir.maktab58.onlineshop.models.products.readingItems.Magazine"/>
+
+    </session-factory>
+</hibernate-configuration>

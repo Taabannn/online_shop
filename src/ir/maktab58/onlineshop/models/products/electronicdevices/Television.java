@@ -18,8 +18,8 @@ public class Television extends ElectronicDevices {
     private int width;
 
     @Builder(setterPrefix = "with")
-    public Television(int id, String productName, long price, int count, String model, String manufacturer, int width) {
-        super(id, productName, price, count, model, manufacturer);
+    public Television(String productName, long price, int count, String model, String manufacturer, int width) {
+        super(productName, price, count, model, manufacturer);
         this.width = width;
     }
 }

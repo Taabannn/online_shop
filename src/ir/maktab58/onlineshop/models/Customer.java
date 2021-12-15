@@ -18,25 +18,24 @@ public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String fullName;
+    private String name;
+    private String family;
     private String username;
     private String password;
-    private long nationalCode;
+    private String nationalCode;
     private long initialBalance;
     private int birthYear;
-    @OneToMany(mappedBy = "customer")
-    private List<Comment> commentList = new ArrayList<>();
     @OneToOne
     private Cart cart;
 
-    @Builder
-    public Customer(int id, String fullName, String username, String password, long nationalCode, long balance, int birthYear) {
-        this.id = id;
-        this.fullName = fullName;
+    @Builder(setterPrefix = "with")
+    public Customer(String name, String family, String username, String password, String nationalCode, long initialBalance, int birthYear) {
+        this.name = name;
+        this.family = family;
         this.username = username;
         this.password = password;
         this.nationalCode = nationalCode;
+        this.initialBalance = initialBalance;
         this.birthYear = birthYear;
-        this.initialBalance = balance;
     }
 }

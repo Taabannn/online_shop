@@ -10,7 +10,7 @@ import javax.persistence.*;
  * @author Taban Soleymani
  */
 @Entity
-@DiscriminatorValue("shoe")
+@PrimaryKeyJoinColumn(name = "product_id")
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
@@ -25,8 +25,8 @@ public class Shoe extends Product {
     private ShoeType shoeType;
 
     @Builder(setterPrefix = "with")
-    public Shoe(int id, String productName, long price, int count, String model, int size, String manufacturer, ShoeTypesInGeneral shoeTypesInGeneral, ShoeType shoeType) {
-        super(id, productName, price, count);
+    public Shoe(String productName, long price, int count, String model, int size, String manufacturer, ShoeTypesInGeneral shoeTypesInGeneral, ShoeType shoeType) {
+        super(productName, price, count);
         this.model = model;
         this.size = size;
         this.manufacturer = manufacturer;

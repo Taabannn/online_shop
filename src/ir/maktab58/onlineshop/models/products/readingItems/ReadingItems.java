@@ -6,18 +6,13 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import javax.persistence.DiscriminatorColumn;
-import javax.persistence.DiscriminatorType;
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
+import javax.persistence.*;
 
 /**
  * @author Taban Soleymani
  */
 @Entity
-@DiscriminatorColumn(name = "readingItem_type",
-        discriminatorType = DiscriminatorType.STRING)
-@DiscriminatorValue("reading-item")
+@PrimaryKeyJoinColumn(name = "product_id")
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
@@ -25,8 +20,8 @@ import javax.persistence.Entity;
 public abstract class ReadingItems extends Product {
     private String publisherName;
 
-    public ReadingItems(int id, String productName, long price, int count, String publisherName) {
-        super(id, productName, price, count);
+    public ReadingItems(String productName, long price, int count, String publisherName) {
+        super(productName, price, count);
         this.publisherName = publisherName;
     }
 }

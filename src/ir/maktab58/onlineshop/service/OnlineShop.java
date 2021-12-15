@@ -8,12 +8,16 @@ import ir.maktab58.onlineshop.enumation.ProductType;
 import ir.maktab58.onlineshop.enumation.ReadingItemsTypes;
 import ir.maktab58.onlineshop.exceptions.EmptyBufferException;
 import ir.maktab58.onlineshop.exceptions.IllegalInput;
+import ir.maktab58.onlineshop.exceptions.OnlineShopExceptions;
 import ir.maktab58.onlineshop.models.Admin;
 import ir.maktab58.onlineshop.models.Cart;
 import ir.maktab58.onlineshop.models.Customer;
 import ir.maktab58.onlineshop.models.products.Product;
+import ir.maktab58.onlineshop.service.singletonvalidator.NationalCodeValidator;
+import ir.maktab58.onlineshop.service.singletonvalidator.UserAndPassValidator;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -28,7 +32,7 @@ public class OnlineShop implements OnlineShopInterface {
     private final CustomerService customerService = new CustomerService();
     private final Scanner scanner = new Scanner(System.in);
 
-    public void updateOnlineShopProperties() {
+    /*public void updateOnlineShopProperties() {
         costumers = customerService.getAllCustomers();
     }
 
@@ -49,135 +53,64 @@ public class OnlineShop implements OnlineShopInterface {
             products = productDataBaseAccess.getAllMagazines();
         }
         throw new IllegalInput("The type that you entered is not allowed.", 400);
+    }*/
+
+    public int registerCustomer(String inputLine) {
+        Customer newCustomer = getCustomerInformation(inputLine);
+        List<Customer> listOfExistedCustomersByThisUser = customerService
+                .getListOfExistedCustomersByThisUsername(newCustomer.getUsername());
+        List<Customer>  listOfExistedCustomersByThisNationalCode = customerService
+                .getListOfExistedCustomersByThisNationalCode(newCustomer.getNationalCode());
+        if (listOfExistedCustomersByThisUser.size() != 0)
+            throw OnlineShopExceptions.builder()
+                    .message("This username " + newCustomer.getUsername() + " is already existed")
+                    .errorCode(400).build();
+        if (listOfExistedCustomersByThisNationalCode.size() != 0)
+            throw OnlineShopExceptions.builder()
+                    .message("This nationalCode " + newCustomer.getNationalCode() + " is already existed")
+                    .errorCode(400).build();
+        return customerService.saveNewCustomer(newCustomer);
     }
 
-    public void registerCustomer() {
-        try {
-            boolean isAdded = addCustomerIfIsNotExisted();
-            if (isAdded) {
-                System.out.println("New customer is added successfully");
-                updateOnlineShopProperties();
-                showCustomerMenu(costumers.size() + 1);
-            }
-        } catch (Exception exception) {
-            System.out.println(exception.getMessage());
-        }
-    }
-
-    private boolean addCustomerIfIsNotExisted() {
-        updateOnlineShopProperties();
-        Customer newCostumer = getCustomerInformation();
-        boolean isExisted = costumers.contains(newCostumer);
-        if (isExisted) {
-            System.out.println("Sorry this customer " + newCostumer + " is already existed.");
-            return false;
-        }
-        return customerAccess.saveCustomer(newCostumer);
-    }
-
-    private Customer getCustomerInformation() {
-        System.out.println("Please enter your fullName, username, password, initial balance, nationalCode and birthYear.");
-        String inputLine = scanner.nextLine();
+    private Customer getCustomerInformation(String inputLine) {
         String[] inputTokens = inputLine.split(" ");
-        String fullName = inputTokens[0];
-        String userName = inputTokens[1];
-        String password = inputTokens[2];
-        if (fullName.length() == 0 || userName.length() == 0 || password.length() == 0)
-            throw new EmptyBufferException("fullName, username and password can not be empty.", 400);
-        int initialBalance = Integer.parseInt(inputTokens[3]);
-        long nationalCode = Long.parseLong(inputTokens[4]);
-        int birthYear = Integer.parseInt(inputTokens[5]);
-        return new Customer(costumers.size() + 1, fullName, userName, password, nationalCode, initialBalance, birthYear);
+        String name = inputTokens[0];
+        String family = inputTokens[1];
+        String username = inputTokens[2];
+        String password = inputTokens[3];
+        long initialBalance = Long.parseLong(inputTokens[4]);
+        String nationalCode = inputTokens[5];
+        int birthYear = Integer.parseInt(inputTokens[6]);
+        validateUserPassAndNationalCode(username, password, nationalCode);
+        return Customer.builder()
+                .withName(name)
+                .withFamily(family)
+                .withUsername(username)
+                .withPassword(password)
+                .withInitialBalance(initialBalance)
+                .withNationalCode(nationalCode)
+                .withBirthYear(birthYear).build();
     }
 
-    public void loginAsACustomer() {
-        try {
-            updateOnlineShopProperties();
-            Scanner scanner = new Scanner(System.in);
-            System.out.println("Please enter your username.");
-            String username = scanner.nextLine().trim();
-            System.out.println("Please enter your password.");
-            String password = scanner.nextLine().trim();
-            for (Customer costumer : costumers) {
-                if (costumer.getUsername().equals(username) && costumer.getPassword().equals(password)) {
-                    System.out.println("Welcome back " + costumer.getFullName() + ".");
-                    showCustomerMenu(costumer.getId());
-                }
-            }
-        } catch (Exception exception) {
-            System.out.println(exception.getMessage());
-        }
+    private void validateUserPassAndNationalCode(String username, String password, String nationalCode) {
+        boolean isNationalCodeValid = NationalCodeValidator.getInstance().isNationalCodeValid(nationalCode);
+        boolean isUserAndPassValid = UserAndPassValidator.getInstance().isUserAndPassValid(username, password);
+        if (!isNationalCodeValid)
+            throw OnlineShopExceptions.builder()
+                    .message("The entered national code is not valid.")
+                    .errorCode(400).build();
+        if (!isUserAndPassValid)
+            throw OnlineShopExceptions.builder()
+                    .message("The entered username or pass is not valid.")
+                    .errorCode(400).build();
     }
 
-    private void showCustomerMenu(int customerId) {
-        CartDataBaseAccess cartAccess = new CartDataBaseAccess();
-        Scanner scanner = new Scanner(System.in);
-        while (true) {
-            Cart cart = cartAccess.getCart(customerId);
-            long totalPrice = calcTotalPrice(cart);
-            System.out.println("**********Customer Menu**********");
-            System.out.println("1) Add product to cart.");
-            System.out.println("2) Delete product from cart.");
-            System.out.println("3) Print added items to cart.");
-            System.out.println("4) Confirm shopping.");
-            System.out.println("5) Deposit your account.");
-            System.out.println("6) Back to main menu");
-            String choice = scanner.nextLine().trim();
-            if (choice.equals("1")) {
-                addProductToCart(customerId);
-            } else if (choice.equals("2")) {
-                deleteProductFromCart(customerId, cart);
-            } else if (choice.equals("3")) {
-                printAddedItemsWithPriceToCart(cart, totalPrice);
-            } else if (choice.equals("4")) {
-                confirmShopping(cart, totalPrice, customerId);
-            } else if (choice.equals("5")) {
-                depositCustomerBalance(customerId);
-            }else if (choice.equals("6")) {
-                break;
-            } else {
-                System.out.println("Invalid input command. Your choice must be an integer between 1 to 6.");
-            }
-        }
+    public int loginAsACustomer(String username, String password) {
+        Customer customer = customerService.getCustomerByUserAndPass(username, password);
+        return customer.getId();
     }
 
-    public void loginAsAnAdmin() {
-        boolean isAllowed = admin.isUserAdmin();
-        if (isAllowed) {
-            System.out.println("Welcome back admin");
-            showAdminMenu();
-        } else {
-            System.out.println("Sorry you are not allowed to access admin menu.");
-        }
-    }
-
-    private void showAdminMenu() {
-        //TODO
-    }
-
-    @Override
-    public void addProductToCart(int customerId) {
-        Scanner scanner = new Scanner(System.in);
-        while (true) {
-            System.out.println("There are three types of products: ");
-            System.out.println("1) Electronic Devices");
-            System.out.println("2) Shoes");
-            System.out.println("3) Reading Items");
-            System.out.println("4) Back to main menu");
-            String choice = scanner.nextLine().trim();
-            if (choice.equals("1")) {
-                addElectronicDevicesToCart(customerId);
-            } else if (choice.equals("2")) {
-                addItemToCart(customerId, ProductType.SHOE.getType());
-            } else if (choice.equals("3")) {
-                addReadingItemsToCart(customerId);
-            } else if (choice.equals("4")) {
-                break;
-            } else {
-                System.out.println("Invalid input command. Your choice must be an integer between 1 to 4.");
-            }
-        }
-    }
+    /*
 
     private void addReadingItemsToCart(int customerId) {
         System.out.println("Which one would you like to add? Book/Magazine");
@@ -299,5 +232,5 @@ public class OnlineShop implements OnlineShopInterface {
         Scanner scanner = new Scanner(System.in);
         long amount = Long.parseLong(scanner.nextLine().trim());
         customerAccess.updateCustomerBalance(customerId, costumers.get(customerId - 1).getInitialBalance() + amount);
-    }
+    }*/
 }

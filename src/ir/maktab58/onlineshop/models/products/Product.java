@@ -1,6 +1,6 @@
 package ir.maktab58.onlineshop.models.products;
 
-import ir.maktab58.onlineshop.models.Comment;
+import ir.maktab58.onlineshop.models.Cart;
 import lombok.*;
 
 import javax.persistence.*;
@@ -11,8 +11,7 @@ import java.util.List;
  * @author Taban Soleymani
  */
 @Entity
-@DiscriminatorColumn(name = "product_type",
-        discriminatorType = DiscriminatorType.STRING)
+@Inheritance(strategy = InheritanceType.JOINED)
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode(of = {"productName", "price"})
@@ -24,11 +23,10 @@ public abstract class Product {
     private String productName;
     private long price;
     private int count;
-    @OneToMany(mappedBy = "product")
-    private List<Comment> commentList = new ArrayList<>();
+    @ManyToMany(mappedBy = "products")
+    private List<Cart> cart = new ArrayList<>();
 
-    public Product(int id, String productName, long price, int count) {
-        this.id = id;
+    public Product(String productName, long price, int count) {
         this.productName = productName;
         this.price = price;
         this.count = count;

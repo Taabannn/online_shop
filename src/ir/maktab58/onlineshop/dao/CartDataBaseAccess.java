@@ -19,7 +19,7 @@ import java.util.ArrayList;
  * @author Taban Soleymani
  */
 public class CartDataBaseAccess extends DataBaseAccess {
-    public CartDataBaseAccess() {
+    /*public CartDataBaseAccess() {
         super();
     }
 
@@ -240,7 +240,7 @@ public class CartDataBaseAccess extends DataBaseAccess {
                 System.out.println(exception.getMessage());
             }
         }
-    }
+    }*/
 }
 
 

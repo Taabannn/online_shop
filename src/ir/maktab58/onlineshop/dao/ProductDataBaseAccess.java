@@ -19,7 +19,7 @@ import java.util.ArrayList;
  * @author Taban Soleymani
  */
 public class ProductDataBaseAccess extends DataBaseAccess {
-    public ProductDataBaseAccess() {
+    /*public ProductDataBaseAccess() {
         super();
     }
 
@@ -235,5 +235,5 @@ public class ProductDataBaseAccess extends DataBaseAccess {
             }
         }
         return 0;
-    }
+    }*/
 }

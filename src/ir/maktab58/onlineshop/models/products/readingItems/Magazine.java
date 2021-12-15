@@ -12,7 +12,6 @@ import javax.persistence.Enumerated;
  * @author Taban Soleymani
  */
 @Entity
-@DiscriminatorValue("magazine")
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
@@ -23,8 +22,8 @@ public class Magazine extends ReadingItems {
     private String subject;
 
     @Builder(setterPrefix = "with")
-    public Magazine(int id, String productName, long price, int count, String publisherName, MagazineType magazineType, String subject) {
-        super(id, productName, price, count, publisherName);
+    public Magazine(String productName, long price, int count, String publisherName, MagazineType magazineType, String subject) {
+        super(productName, price, count, publisherName);
         this.magazineType = magazineType;
         this.subject = subject;
     }

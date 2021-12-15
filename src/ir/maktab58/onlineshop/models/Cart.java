@@ -7,6 +7,7 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Taban Soleymani
@@ -19,6 +20,7 @@ public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @OneToMany
-    private ArrayList<Product> products;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "fk_product_id")
+    private List<Product> products = new ArrayList<>();
 }

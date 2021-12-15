@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * @author Taban Soleymani
  */
 public class CustomerDataBaseAccess extends DataBaseAccess {
-    public CustomerDataBaseAccess() {
+    /*public CustomerDataBaseAccess() {
         super();
     }
 
@@ -69,5 +69,5 @@ public class CustomerDataBaseAccess extends DataBaseAccess {
             }
         }
         return false;
-    }
+    }*/
 }
