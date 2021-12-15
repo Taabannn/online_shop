@@ -27,6 +27,8 @@ public class Customer {
     private int birthYear;
     @OneToMany(mappedBy = "customer")
     private List<Comment> commentList = new ArrayList<>();
+    @OneToOne
+    private Cart cart;
 
     @Builder
     public Customer(int id, String fullName, String username, String password, long nationalCode, long balance, int birthYear) {
