@@ -101,7 +101,8 @@ public class OnlineShopSys {
     }
 
     private void depositYourAccount(int customerId) {
-
+        System.out.println("Enter amount of charge: ");
+        long charge = Long.parseLong(scanner.nextLine().trim());
     }
 
     private void confirmShopping(int customerId) {
@@ -144,11 +145,13 @@ public class OnlineShopSys {
         String typeOfReading = scanner.nextLine().trim();
         List<Product> readingItems = onlineShop.getReadingItems(typeOfReading);
         readingItems.forEach(System.out::println);
+        addSpecificItemToCart(customerId);
     }
 
     private void showShoes(int customerId) {
         List<Product> shoes = onlineShop.getShoes();
         shoes.forEach(System.out::println);
+        addSpecificItemToCart(customerId);
     }
 
     private void showElectronicDevices(int customerId) {
@@ -156,5 +159,22 @@ public class OnlineShopSys {
         String typeOfDevice = scanner.nextLine().trim();
         List<Product> electronicDevices = onlineShop.getElectronicDevices(typeOfDevice);
         electronicDevices.forEach(System.out::println);
+        addSpecificItemToCart(customerId);
+    }
+
+    private void addSpecificItemToCart(int customerId) {
+        System.out.println("Enter id of Item that you want add it to your cart:\n" +
+                "If you are not interested with printed items please enter 0 to back product-type menu.");
+        int productId = Integer.parseInt(scanner.nextLine().trim());
+        if (productId == 0)
+            return;
+        else
+            System.out.println("Enter count of Items that you want add it to your cart.");
+        int count = Integer.parseInt(scanner.nextLine().trim());;
+        int result = onlineShop.addItemToCart(customerId, productId, count);
+        if (result != 0)
+            System.out.println("This item has added successfully to your card.");
+        else
+            System.out.println("Something during adding item to your cart went wrong. Please try again");
     }
 }

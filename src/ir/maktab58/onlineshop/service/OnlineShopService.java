@@ -4,6 +4,7 @@ import ir.maktab58.onlineshop.enumation.ElectronicDevicesTypes;
 import ir.maktab58.onlineshop.enumation.ReadingItemsTypes;
 import ir.maktab58.onlineshop.exceptions.OnlineShopExceptions;
 import ir.maktab58.onlineshop.models.Admin;
+import ir.maktab58.onlineshop.models.Cart;
 import ir.maktab58.onlineshop.models.Customer;
 import ir.maktab58.onlineshop.models.products.Product;
 import ir.maktab58.onlineshop.models.products.electronicdevices.ElectronicDevices;
@@ -15,15 +16,15 @@ import ir.maktab58.onlineshop.service.singletonvalidator.UserAndPassValidator;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
+import java.util.function.Predicate;
 
 /**
  * @author Taban Soleymani
  */
 public class OnlineShopService implements OnlineShopInterface {
-    private final Admin admin = new Admin();
-    private ArrayList<Product> products = new ArrayList<>();
-    private ArrayList<Customer> costumers = new ArrayList<>();
+    private List<Product> products;
     private final CartService cartService = new CartService();
     private final ProductService productService = new ProductService();
     private final CustomerService customerService = new CustomerService();
@@ -87,10 +88,12 @@ public class OnlineShopService implements OnlineShopInterface {
 
     public List<Product> getReadingItems(String typeOfReading) {
         if (ReadingItemsTypes.MAGAZINE.getType().equalsIgnoreCase(typeOfReading)) {
-            return productService.getMagazines();
+            products = productService.getMagazines();
+            return products;
         }
         if (ReadingItemsTypes.BOOK.getType().equalsIgnoreCase(typeOfReading)) {
-            return productService.getBooks();
+            products =  productService.getBooks();
+            return products;
         }
         throw OnlineShopExceptions.builder()
                 .message("Invalid type of reading Item: " + typeOfReading)
@@ -98,48 +101,44 @@ public class OnlineShopService implements OnlineShopInterface {
     }
 
     public List<Product> getShoes() {
-        return productService.getShoes();
+        products = productService.getShoes();
+        return products;
     }
 
     public List<Product> getElectronicDevices(String typeOfDevice) {
         if (ElectronicDevicesTypes.TELEVISION.getType().equalsIgnoreCase(typeOfDevice)) {
-            return productService.getTVs();
+            products = productService.getTVs();
+            return products;
         }
         if (ElectronicDevicesTypes.RADIO.getType().equalsIgnoreCase(typeOfDevice)) {
-            return productService.getRadios();
+            products = productService.getRadios();
+            return products;
         }
         throw OnlineShopExceptions.builder()
                 .message("Invalid type of electronc-device Item: " + typeOfDevice)
                 .errorCode(400).build();
     }
 
-    /*
-
-    private void addReadingItemsToCart(int customerId) {
-        System.out.println("Which one would you like to add? Book/Magazine");
-        Scanner scanner = new Scanner(System.in);
-        String typeOfReading = scanner.nextLine().trim();
-        if (ReadingItemsTypes.MAGAZINE.getType().equals(typeOfReading))
-            addItemToCart(customerId, ReadingItemsTypes.MAGAZINE.getType());
-        else if (ReadingItemsTypes.BOOK.getType().equals(typeOfReading))
-            addItemToCart(customerId, ReadingItemsTypes.BOOK.getType());
-        else
-            System.out.println("Invalid type of input, please try again.");
+    public int addItemToCart(int customerId, int productId, int count) {
+        Optional<Product> foundedProduct = products.stream().filter(product -> productId == product.getId()).findFirst();
+        if (foundedProduct.isEmpty())
+            throw OnlineShopExceptions.builder()
+                    .message(productId + " is not existed.")
+                    .errorCode(400).build();
+        Product product = foundedProduct.get();
+        if (count < product.getCount())
+            throw OnlineShopExceptions.builder()
+                    .message(count + "s is not existed from this product.")
+                    .errorCode(400).build();
+        Customer customer = customerService.getCustomerById(customerId);
+        Cart cart = Cart.builder()
+                .withCustomer(customer)
+                .withProduct(product)
+                .withQuantity(count).build();
+        return cartService.saveCart(cart);
     }
 
-    private void addElectronicDevicesToCart(int customerId) {
-        System.out.println("Which one would you like to add? Television/Radio");
-        Scanner scanner = new Scanner(System.in);
-        String deviceType = scanner.nextLine().trim();
-        if (deviceType.equalsIgnoreCase(ElectronicDevicesTypes.TELEVISION.getType()))
-            addItemToCart(customerId, ElectronicDevicesTypes.TELEVISION.getType());
-        else if (deviceType.equalsIgnoreCase(ElectronicDevicesTypes.RADIO.getType()))
-            addItemToCart(customerId, ElectronicDevicesTypes.RADIO.getType());
-        else
-            System.out.println("Invalid type of input, please try again.");
-    }
-
-    private void addItemToCart(int customerId, String type){
+    /*private void addItemToCart(int customerId, String type){
         updateOnlineShopProperties(type);
         for (Product product : products) {
             System.out.println(product);

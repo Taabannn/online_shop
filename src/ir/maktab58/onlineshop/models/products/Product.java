@@ -15,7 +15,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode(of = {"productName", "price"})
-@ToString(of = {"id", "productName", "price", "count"})
+@ToString
 public abstract class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,8 +23,6 @@ public abstract class Product {
     private String productName;
     private long price;
     private int count;
-    @ManyToMany(mappedBy = "products")
-    private List<Cart> cart = new ArrayList<>();
 
     public Product(String productName, long price, int count) {
         this.productName = productName;

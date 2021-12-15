@@ -54,4 +54,20 @@ public class CustomerDao extends BaseDaoInterfaceImpl<Customer> {
         }
         return customer;
     }
+
+    public Customer findCustomerById(int customerId) {
+        Customer customer;
+        try {
+            Session session = SessionUtil.getSession();
+            Transaction transaction = session.beginTransaction();
+            Query<Customer> query = session.createQuery("FROM Customer customer WHERE customer.id=:customerId", Customer.class);
+            query.setParameter("customerId", customerId);
+            customer = query.getSingleResult();
+            transaction.commit();
+            session.close();
+        } catch (NoResultException e) {
+            customer = null;
+        }
+        return customer;
+    }
 }

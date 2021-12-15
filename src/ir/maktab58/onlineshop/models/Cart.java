@@ -1,6 +1,7 @@
 package ir.maktab58.onlineshop.models;
 
 import ir.maktab58.onlineshop.models.products.Product;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -20,7 +21,18 @@ public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @ManyToMany(cascade = CascadeType.ALL)
+    @OneToOne
+    @JoinColumn(name = "fk_customer_id")
+    private Customer customer;
+    @OneToOne
     @JoinColumn(name = "fk_product_id")
-    private List<Product> products = new ArrayList<>();
+    private Product product;
+    private int quantity;
+
+    @Builder(setterPrefix = "with")
+    public Cart(Customer customer, Product product, int quantity) {
+        this.customer = customer;
+        this.product = product;
+        this.quantity = quantity;
+    }
 }

@@ -25,8 +25,6 @@ public class Customer {
     private String nationalCode;
     private long initialBalance;
     private int birthYear;
-    @OneToOne
-    private Cart cart;
 
     @Builder(setterPrefix = "with")
     public Customer(String name, String family, String username, String password, String nationalCode, long initialBalance, int birthYear) {
