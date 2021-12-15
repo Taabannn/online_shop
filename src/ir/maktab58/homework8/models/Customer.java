@@ -1,11 +1,11 @@
 package ir.maktab58.homework8.models;
 
 import lombok.*;
+import org.hibernate.annotations.Cascade;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Taban Soleymani
@@ -25,6 +25,8 @@ public class Customer {
     private long nationalCode;
     private long initialBalance;
     private int birthYear;
+    @OneToMany(mappedBy = "customer")
+    private List<Comment> commentList = new ArrayList<>();
 
     @Builder
     public Customer(int id, String fullName, String username, String password, long nationalCode, long balance, int birthYear) {

@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import javax.persistence.Entity;
+import javax.persistence.*;
 
 /**
  * @author Taban Soleymani
@@ -16,10 +16,15 @@ import javax.persistence.Entity;
 @NoArgsConstructor
 @ToString
 public class Comment {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @ManyToOne(cascade = CascadeType.ALL)
     private Customer costumer;
     private Product product;
     private String comment;
+
+    private Customer customer;
 
     @Builder
     public Comment(int id, Customer costumer, Product product, String comment) {
