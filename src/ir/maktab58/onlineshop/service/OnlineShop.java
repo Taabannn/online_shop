@@ -1,8 +1,8 @@
 package ir.maktab58.onlineshop.service;
 
-import ir.maktab58.onlineshop.dataaccess.CartDataBaseAccess;
-import ir.maktab58.onlineshop.dataaccess.CustomerDataBaseAccess;
-import ir.maktab58.onlineshop.dataaccess.ProductDataBaseAccess;
+import ir.maktab58.onlineshop.dao.CartDataBaseAccess;
+import ir.maktab58.onlineshop.dao.CustomerDataBaseAccess;
+import ir.maktab58.onlineshop.dao.ProductDataBaseAccess;
 import ir.maktab58.onlineshop.enumation.ElectronicDevicesTypes;
 import ir.maktab58.onlineshop.enumation.ProductType;
 import ir.maktab58.onlineshop.enumation.ReadingItemsTypes;

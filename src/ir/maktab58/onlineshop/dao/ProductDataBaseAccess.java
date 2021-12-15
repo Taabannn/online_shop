@@ -1,4 +1,4 @@
-package ir.maktab58.onlineshop.dataaccess;
+package ir.maktab58.onlineshop.dao;
 
 import ir.maktab58.onlineshop.enumation.MagazineType;
 import ir.maktab58.onlineshop.enumation.ShoeType;
