@@ -5,6 +5,8 @@ import lombok.*;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import java.util.Objects;
 
 /**
@@ -17,6 +19,7 @@ import java.util.Objects;
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
 public class Magazine extends ReadingItems {
+    @Enumerated(value = EnumType.STRING)
     private MagazineType magazineType;
     private String subject;
 
