@@ -1,15 +1,21 @@
 package ir.maktab58.onlineshop.view;
 
+import ir.maktab58.onlineshop.enumation.ReadingItemsTypes;
 import ir.maktab58.onlineshop.exceptions.OnlineShopExceptions;
-import ir.maktab58.onlineshop.service.OnlineShop;
+import ir.maktab58.onlineshop.models.products.Product;
+import ir.maktab58.onlineshop.models.products.readingItems.Book;
+import ir.maktab58.onlineshop.models.products.readingItems.Magazine;
+import ir.maktab58.onlineshop.models.products.readingItems.ReadingItems;
+import ir.maktab58.onlineshop.service.OnlineShopService;
 
+import java.util.List;
 import java.util.Scanner;
 
 /**
  * @author Taban Soleymani
  */
 public class OnlineShopSys {
-    private final OnlineShop onlineShop = new OnlineShop();
+    private final OnlineShopService onlineShop = new OnlineShopService();
     private final Scanner scanner = new Scanner(System.in);
 
     public void showMenu() {
@@ -119,9 +125,9 @@ public class OnlineShopSys {
             String choice = scanner.nextLine().trim();
             try {
                 switch (choice) {
-                    case "1" -> addProductToCart(customerId);
-                    case "2" -> deleteProductFromCart(customerId);
-                    case "3" -> printAddedItemsToCart(customerId);
+                    case "1" -> showElectronicDevices(customerId);
+                    case "2" -> showShoes(customerId);
+                    case "3" -> showReadingItems(customerId);
                     case "4" -> exit = true;
                     default -> throw OnlineShopExceptions.builder()
                             .message("Invalid input command. Your choice must be an integer between 1 to 4.")
@@ -133,32 +139,22 @@ public class OnlineShopSys {
         }
     }
 
-    /*private void showCustomerMenu(int customerId) {
-        while (true) {
-            System.out.println("""
-                    **********Customer Menu**********
-                    1) Add product to cart.
-                    2) Delete product from cart.
-                    3) Print added items to cart.
-                    4) Confirm shopping.
-                    5) Deposit your account.
-                    6) Back to main menu""");
-            String choice = scanner.nextLine().trim();
-            if (choice.equals("1")) {
-                addProductToCart(customerId);
-            } else if (choice.equals("2")) {
-                deleteProductFromCart(customerId, cart);
-            } else if (choice.equals("3")) {
-                printAddedItemsWithPriceToCart(cart, totalPrice);
-            } else if (choice.equals("4")) {
-                confirmShopping(cart, totalPrice, customerId);
-            } else if (choice.equals("5")) {
-                depositCustomerBalance(customerId);
-            } else if (choice.equals("6")) {
-                break;
-            } else {
-                System.out.println("Invalid input command. Your choice must be an integer between 1 to 6.");
-            }
-        }
-    }*/
+    private void showReadingItems(int customerId) {
+        System.out.println("Which one would you like to see? Book/Magazine");
+        String typeOfReading = scanner.nextLine().trim();
+        List<Product> readingItems = onlineShop.getReadingItems(typeOfReading);
+        readingItems.forEach(System.out::println);
+    }
+
+    private void showShoes(int customerId) {
+        List<Product> shoes = onlineShop.getShoes();
+        shoes.forEach(System.out::println);
+    }
+
+    private void showElectronicDevices(int customerId) {
+        System.out.println("Which one would you like to see? Television/Radio");
+        String typeOfDevice = scanner.nextLine().trim();
+        List<Product> electronicDevices = onlineShop.getElectronicDevices(typeOfDevice);
+        electronicDevices.forEach(System.out::println);
+    }
 }

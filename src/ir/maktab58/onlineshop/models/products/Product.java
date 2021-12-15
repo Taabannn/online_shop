@@ -15,7 +15,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode(of = {"productName", "price"})
-@ToString
+@ToString(of = {"id", "productName", "price", "count"})
 public abstract class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

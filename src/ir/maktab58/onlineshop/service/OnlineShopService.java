@@ -1,18 +1,15 @@
 package ir.maktab58.onlineshop.service;
 
-import ir.maktab58.onlineshop.dao.CartDataBaseAccess;
-import ir.maktab58.onlineshop.dao.CustomerDataBaseAccess;
-import ir.maktab58.onlineshop.dao.ProductDataBaseAccess;
 import ir.maktab58.onlineshop.enumation.ElectronicDevicesTypes;
-import ir.maktab58.onlineshop.enumation.ProductType;
 import ir.maktab58.onlineshop.enumation.ReadingItemsTypes;
-import ir.maktab58.onlineshop.exceptions.EmptyBufferException;
-import ir.maktab58.onlineshop.exceptions.IllegalInput;
 import ir.maktab58.onlineshop.exceptions.OnlineShopExceptions;
 import ir.maktab58.onlineshop.models.Admin;
-import ir.maktab58.onlineshop.models.Cart;
 import ir.maktab58.onlineshop.models.Customer;
 import ir.maktab58.onlineshop.models.products.Product;
+import ir.maktab58.onlineshop.models.products.electronicdevices.ElectronicDevices;
+import ir.maktab58.onlineshop.models.products.readingItems.Book;
+import ir.maktab58.onlineshop.models.products.readingItems.Magazine;
+import ir.maktab58.onlineshop.models.products.readingItems.ReadingItems;
 import ir.maktab58.onlineshop.service.singletonvalidator.NationalCodeValidator;
 import ir.maktab58.onlineshop.service.singletonvalidator.UserAndPassValidator;
 
@@ -23,37 +20,13 @@ import java.util.Scanner;
 /**
  * @author Taban Soleymani
  */
-public class OnlineShop implements OnlineShopInterface {
+public class OnlineShopService implements OnlineShopInterface {
     private final Admin admin = new Admin();
     private ArrayList<Product> products = new ArrayList<>();
     private ArrayList<Customer> costumers = new ArrayList<>();
     private final CartService cartService = new CartService();
     private final ProductService productService = new ProductService();
     private final CustomerService customerService = new CustomerService();
-    private final Scanner scanner = new Scanner(System.in);
-
-    /*public void updateOnlineShopProperties() {
-        costumers = customerService.getAllCustomers();
-    }
-
-    public void updateOnlineShopProperties(String type) {
-        if (type.equals(ProductType.SHOE.getType())) {
-            products = productDataBaseAccess.getAllShoes();
-        }
-        if (type.equals(ElectronicDevicesTypes.TELEVISION.getType())) {
-            products = productDataBaseAccess.getAllTelevisions();
-        }
-        if (type.equals(ElectronicDevicesTypes.RADIO.getType())) {
-            products = productDataBaseAccess.getAllRadios();
-        }
-        if (type.equals(ReadingItemsTypes.BOOK.getType())) {
-            products = productDataBaseAccess.getAllBooks();
-        }
-        if (type.equals(ReadingItemsTypes.MAGAZINE.getType())) {
-            products = productDataBaseAccess.getAllMagazines();
-        }
-        throw new IllegalInput("The type that you entered is not allowed.", 400);
-    }*/
 
     public int registerCustomer(String inputLine) {
         Customer newCustomer = getCustomerInformation(inputLine);
@@ -107,7 +80,37 @@ public class OnlineShop implements OnlineShopInterface {
 
     public int loginAsACustomer(String username, String password) {
         Customer customer = customerService.getCustomerByUserAndPass(username, password);
+        if (customer == null)
+            return 0;
         return customer.getId();
+    }
+
+    public List<Product> getReadingItems(String typeOfReading) {
+        if (ReadingItemsTypes.MAGAZINE.getType().equalsIgnoreCase(typeOfReading)) {
+            return productService.getMagazines();
+        }
+        if (ReadingItemsTypes.BOOK.getType().equalsIgnoreCase(typeOfReading)) {
+            return productService.getBooks();
+        }
+        throw OnlineShopExceptions.builder()
+                .message("Invalid type of reading Item: " + typeOfReading)
+                .errorCode(400).build();
+    }
+
+    public List<Product> getShoes() {
+        return productService.getShoes();
+    }
+
+    public List<Product> getElectronicDevices(String typeOfDevice) {
+        if (ElectronicDevicesTypes.TELEVISION.getType().equalsIgnoreCase(typeOfDevice)) {
+            return productService.getTVs();
+        }
+        if (ElectronicDevicesTypes.RADIO.getType().equalsIgnoreCase(typeOfDevice)) {
+            return productService.getRadios();
+        }
+        throw OnlineShopExceptions.builder()
+                .message("Invalid type of electronc-device Item: " + typeOfDevice)
+                .errorCode(400).build();
     }
 
     /*
