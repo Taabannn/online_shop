@@ -30,4 +30,8 @@ public class CustomerService {
     public Customer getCustomerById(int customerId) {
         return customerDao.findCustomerById(customerId);
     }
+
+    public void updateCustomerBalance(Customer customer) {
+        customerDao.update(customer);
+    }
 }

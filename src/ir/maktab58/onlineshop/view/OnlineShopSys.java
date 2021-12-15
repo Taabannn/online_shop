@@ -103,6 +103,8 @@ public class OnlineShopSys {
     private void depositYourAccount(int customerId) {
         System.out.println("Enter amount of charge: ");
         long charge = Long.parseLong(scanner.nextLine().trim());
+        onlineShop.depositCustomerBalance(charge, customerId);
+        System.out.println("your balance has increased.");
     }
 
     private void confirmShopping(int customerId) {

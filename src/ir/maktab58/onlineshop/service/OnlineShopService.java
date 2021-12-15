@@ -138,6 +138,12 @@ public class OnlineShopService implements OnlineShopInterface {
         return cartService.saveCart(cart);
     }
 
+    public void depositCustomerBalance(long charge, int customerId) {
+        Customer customer = customerService.getCustomerById(customerId);
+        customer.setInitialBalance(customer.getInitialBalance() + charge);
+        customerService.updateCustomerBalance(customer);
+    }
+
     /*private void addItemToCart(int customerId, String type){
         updateOnlineShopProperties(type);
         for (Product product : products) {
