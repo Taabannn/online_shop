@@ -6,6 +6,9 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorType;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import java.util.Objects;
 
@@ -13,6 +16,9 @@ import java.util.Objects;
  * @author Taban Soleymani
  */
 @Entity
+@DiscriminatorColumn(name = "electronicDevice_type",
+        discriminatorType = DiscriminatorType.STRING)
+@DiscriminatorValue("electronic-device")
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)

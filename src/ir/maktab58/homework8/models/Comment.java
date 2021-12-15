@@ -20,16 +20,17 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @ManyToOne(cascade = CascadeType.ALL)
-    private Customer costumer;
+    @JoinColumn(name = "fk_customer_id")
+    private Customer customer;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "fk_product_id")
     private Product product;
     private String comment;
 
-    private Customer customer;
-
     @Builder
-    public Comment(int id, Customer costumer, Product product, String comment) {
+    public Comment(int id, Customer customer, Product product, String comment) {
         this.id = id;
-        this.costumer = costumer;
+        this.customer = customer;
         this.product = product;
         this.comment = comment;
     }
