@@ -20,14 +20,16 @@ import java.util.Scanner;
  * @author Taban Soleymani
  */
 public class OnlineShop implements OnlineShopInterface {
-    private Admin admin = new Admin();
+    private final Admin admin = new Admin();
     private ArrayList<Product> products = new ArrayList<>();
     private ArrayList<Customer> costumers = new ArrayList<>();
-    private CustomerDataBaseAccess customerAccess = new CustomerDataBaseAccess();
-    private ProductDataBaseAccess productDataBaseAccess = new ProductDataBaseAccess();
+    private final CartService cartService = new CartService();
+    private final ProductService productService = new ProductService();
+    private final CustomerService customerService = new CustomerService();
+    private final Scanner scanner = new Scanner(System.in);
 
     public void updateOnlineShopProperties() {
-        costumers = customerAccess.getAllCustomers();
+        costumers = customerService.getAllCustomers();
     }
 
     public void updateOnlineShopProperties(String type) {
@@ -75,7 +77,6 @@ public class OnlineShop implements OnlineShopInterface {
 
     private Customer getCustomerInformation() {
         System.out.println("Please enter your fullName, username, password, initial balance, nationalCode and birthYear.");
-        Scanner scanner = new Scanner(System.in);
         String inputLine = scanner.nextLine();
         String[] inputTokens = inputLine.split(" ");
         String fullName = inputTokens[0];

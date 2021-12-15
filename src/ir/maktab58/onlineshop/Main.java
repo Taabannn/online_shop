@@ -1,5 +1,6 @@
 package ir.maktab58.onlineshop;
 
+import ir.maktab58.onlineshop.exceptions.OnlineShopExceptions;
 import ir.maktab58.onlineshop.service.OnlineShop;
 
 import java.util.Scanner;
@@ -12,22 +13,25 @@ public class Main {
         OnlineShop onlineShop = new OnlineShop();
         Scanner inputLine = new Scanner(System.in);
         while (true){
-            System.out.println("**********Welcome**********");
-            System.out.println("1) Signup as a customer (if you have not an account you can create it now)");
-            System.out.println("2) Login as a customer (if you've already an account)");
-            System.out.println("3) Login as an admin");
-            System.out.println("4) Exit");
+            System.out.println("""
+                    **********Welcome**********
+                    1) Signup as a customer (if you have not an account you can create it now)
+                    2) Login as a customer (if you've already an account)
+                    3) Login as an admin
+                    4) Exit""");
             String choice = inputLine.nextLine().trim();
-            if (choice.trim().equals("1")) {
-                onlineShop.registerCustomer();
-            } else if (choice.equals("2")) {
-                onlineShop.loginAsACustomer();
-            } else if (choice.equals("3")) {
-                onlineShop.loginAsAnAdmin();
-            } else if (choice.equals("4")) {
-                break;
-            } else {
-                System.out.println("Invalid input command. Your choice must be an integer between 1 to 4.");
+            try {
+                switch (choice) {
+                    case "1" : onlineShop.registerCustomer();
+                    case "2" : onlineShop.loginAsACustomer();
+                    case "3" : onlineShop.loginAsAnAdmin();
+                    case "4" : break;
+                    default: throw OnlineShopExceptions.builder()
+                            .message("Invalid input command. Your choice must be an integer between 1 to 4.")
+                            .errorCode(400).build();
+                }
+            } catch (RuntimeException e) {
+                System.out.println(e.getMessage());
             }
         }
     }
