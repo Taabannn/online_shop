@@ -15,8 +15,6 @@ public class Admin {
         String username = scanner.nextLine();
         System.out.println("Please enter your password.");
         String password = scanner.nextLine();
-        if (this.username.equals(username) && this.password.equals(password))
-            return true;
-        return false;
+        return this.username.equals(username) && this.password.equals(password);
     }
 }

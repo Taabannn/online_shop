@@ -1,8 +1,7 @@
-package ir.maktab58.homework8.models;
+package ir.maktab58.homework8.models.products.readingItems;
 
 import ir.maktab58.homework8.enumation.MagazineType;
 
-import java.util.ArrayList;
 import java.util.Objects;
 
 /**

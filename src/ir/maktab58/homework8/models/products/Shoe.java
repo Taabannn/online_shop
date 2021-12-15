@@ -1,9 +1,8 @@
-package ir.maktab58.homework8.models;
+package ir.maktab58.homework8.models.products;
 
 import ir.maktab58.homework8.enumation.ShoeType;
 import ir.maktab58.homework8.enumation.ShoeTypesInGeneral;
 
-import java.util.ArrayList;
 import java.util.Objects;
 
 /**

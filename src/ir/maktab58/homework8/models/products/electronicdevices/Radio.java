@@ -1,6 +1,5 @@
-package ir.maktab58.homework8.models;
+package ir.maktab58.homework8.models.products.electronicdevices;
 
-import java.util.ArrayList;
 import java.util.Objects;
 
 /**

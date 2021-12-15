@@ -1,0 +1,27 @@
+package ir.maktab58.homework8.models.products.readingItems;
+
+import ir.maktab58.homework8.models.products.Product;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
+import javax.persistence.Entity;
+import java.util.Objects;
+
+/**
+ * @author Taban Soleymani
+ */
+@Entity
+@Data
+@NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
+public abstract class ReadingItems extends Product {
+    private String publisherName;
+
+    public ReadingItems(int id, String productName, long price, int count, String publisherName) {
+        super(id, productName, price, count);
+        this.publisherName = publisherName;
+    }
+}

@@ -3,6 +3,11 @@ package ir.maktab58.homework8.dataaccess;
 import ir.maktab58.homework8.enumation.*;
 import ir.maktab58.homework8.exceptions.IllegalInput;
 import ir.maktab58.homework8.models.*;
+import ir.maktab58.homework8.models.products.*;
+import ir.maktab58.homework8.models.products.electronicdevices.Radio;
+import ir.maktab58.homework8.models.products.electronicdevices.Television;
+import ir.maktab58.homework8.models.products.readingItems.Book;
+import ir.maktab58.homework8.models.products.readingItems.Magazine;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -61,7 +66,7 @@ public class CartDataBaseAccess extends DataBaseAccess {
                 Statement statement = connection.createStatement();
                 ResultSet resultSet = statement.executeQuery("select * from customers where customer_id="+ customerId);
                 while (resultSet.next()) {
-                    Costumer costumer = new Costumer(resultSet.getInt(1),
+                    Customer costumer = new Customer(resultSet.getInt(1),
                             resultSet.getString(2), resultSet.getString(3),
                             resultSet.getString(4), resultSet.getInt(5),
                             resultSet.getInt(7), resultSet.getInt(6));

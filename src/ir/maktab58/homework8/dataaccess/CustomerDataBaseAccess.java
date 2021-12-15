@@ -1,6 +1,6 @@
 package ir.maktab58.homework8.dataaccess;
 
-import ir.maktab58.homework8.models.Costumer;
+import ir.maktab58.homework8.models.Customer;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -29,14 +29,14 @@ public class CustomerDataBaseAccess extends DataBaseAccess {
         return 0;
     }
 
-    public ArrayList<Costumer> getAllCustomers() {
+    public ArrayList<Customer> getAllCustomers() {
         if (connection != null) {
             try {
                 Statement statement = connection.createStatement();
                 ResultSet resultSet = statement.executeQuery("select * from customers");
-                ArrayList<Costumer> costumerArrayList = new ArrayList<>();
+                ArrayList<Customer> costumerArrayList = new ArrayList<>();
                 while (resultSet.next()) {
-                    Costumer costumer = new Costumer(resultSet.getInt(1),
+                    Customer costumer = new Customer(resultSet.getInt(1),
                             resultSet.getString(2), resultSet.getString(3),
                             resultSet.getString(4), resultSet.getInt(5),
                             resultSet.getInt(7), resultSet.getInt(6));
@@ -50,7 +50,7 @@ public class CustomerDataBaseAccess extends DataBaseAccess {
         return null;
     }
 
-    public boolean saveCustomer(Costumer costumer) {
+    public boolean saveCustomer(Customer costumer) {
         if (connection != null) {
             try {
                 String sqlQuery = String.format("INSERT INTO customers (customer_id, full_name, username, password, national_code, birth_year, initial_balance) VALUES (?, ?, ?, ?, ?, ?, ?)");

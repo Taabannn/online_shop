@@ -1,12 +1,11 @@
-package ir.maktab58.homework8.models;
+package ir.maktab58.homework8.models.products.electronicdevices;
 
-import java.util.ArrayList;
 import java.util.Objects;
 
 /**
  * @author Taban Soleymani
  */
-public class Television extends ElectronicDevices{
+public class Television extends ElectronicDevices {
     private int width;
 
     public Television(int id, String productName, long price, int count, String model, String manufacturer, int width) {

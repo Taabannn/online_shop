@@ -1,4 +1,4 @@
-package ir.maktab58.homework8.models;
+package ir.maktab58.homework8.models.products.readingItems;
 
 import java.util.Objects;
 

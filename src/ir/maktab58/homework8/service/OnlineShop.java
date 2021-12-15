@@ -10,8 +10,8 @@ import ir.maktab58.homework8.exceptions.EmptyBufferException;
 import ir.maktab58.homework8.exceptions.IllegalInput;
 import ir.maktab58.homework8.models.Admin;
 import ir.maktab58.homework8.models.Cart;
-import ir.maktab58.homework8.models.Costumer;
-import ir.maktab58.homework8.models.Product;
+import ir.maktab58.homework8.models.Customer;
+import ir.maktab58.homework8.models.products.Product;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -22,7 +22,7 @@ import java.util.Scanner;
 public class OnlineShop implements OnlineShopInterface {
     private Admin admin = new Admin();
     private ArrayList<Product> products = new ArrayList<>();
-    private ArrayList<Costumer> costumers = new ArrayList<>();
+    private ArrayList<Customer> costumers = new ArrayList<>();
     private CustomerDataBaseAccess customerAccess = new CustomerDataBaseAccess();
     private ProductDataBaseAccess productDataBaseAccess = new ProductDataBaseAccess();
 
@@ -64,7 +64,7 @@ public class OnlineShop implements OnlineShopInterface {
 
     private boolean addCustomerIfIsNotExisted() {
         updateOnlineShopProperties();
-        Costumer newCostumer = getCustomerInformation();
+        Customer newCostumer = getCustomerInformation();
         boolean isExisted = costumers.contains(newCostumer);
         if (isExisted) {
             System.out.println("Sorry this customer " + newCostumer + " is already existed.");
@@ -73,7 +73,7 @@ public class OnlineShop implements OnlineShopInterface {
         return customerAccess.saveCustomer(newCostumer);
     }
 
-    private Costumer getCustomerInformation() {
+    private Customer getCustomerInformation() {
         System.out.println("Please enter your fullName, username, password, initial balance, nationalCode and birthYear.");
         Scanner scanner = new Scanner(System.in);
         String inputLine = scanner.nextLine();
@@ -86,7 +86,7 @@ public class OnlineShop implements OnlineShopInterface {
         int initialBalance = Integer.parseInt(inputTokens[3]);
         long nationalCode = Long.parseLong(inputTokens[4]);
         int birthYear = Integer.parseInt(inputTokens[5]);
-        return new Costumer(costumers.size() + 1, fullName, userName, password, nationalCode, initialBalance, birthYear);
+        return new Customer(costumers.size() + 1, fullName, userName, password, nationalCode, initialBalance, birthYear);
     }
 
     public void loginAsACustomer() {
@@ -97,7 +97,7 @@ public class OnlineShop implements OnlineShopInterface {
             String username = scanner.nextLine().trim();
             System.out.println("Please enter your password.");
             String password = scanner.nextLine().trim();
-            for (Costumer costumer : costumers) {
+            for (Customer costumer : costumers) {
                 if (costumer.getUsername().equals(username) && costumer.getPassword().equals(password)) {
                     System.out.println("Welcome back " + costumer.getFullName() + ".");
                     showCustomerMenu(costumer.getId());
@@ -271,7 +271,7 @@ public class OnlineShop implements OnlineShopInterface {
     @Override
     public void confirmShopping(Cart cart, long totalPrice, int customerId) {
         updateOnlineShopProperties();
-        int balance = costumers.get(customerId - 1).getInitialBalance();
+        long balance = costumers.get(customerId - 1).getInitialBalance();
         if (balance < totalPrice) {
             System.out.println("You should deposit your balance first.");
         } else {

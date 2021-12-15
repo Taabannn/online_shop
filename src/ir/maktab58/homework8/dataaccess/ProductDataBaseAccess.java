@@ -3,7 +3,11 @@ package ir.maktab58.homework8.dataaccess;
 import ir.maktab58.homework8.enumation.MagazineType;
 import ir.maktab58.homework8.enumation.ShoeType;
 import ir.maktab58.homework8.enumation.ShoeTypesInGeneral;
-import ir.maktab58.homework8.models.*;
+import ir.maktab58.homework8.models.products.*;
+import ir.maktab58.homework8.models.products.electronicdevices.Radio;
+import ir.maktab58.homework8.models.products.electronicdevices.Television;
+import ir.maktab58.homework8.models.products.readingItems.Book;
+import ir.maktab58.homework8.models.products.readingItems.Magazine;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

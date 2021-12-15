@@ -1,5 +1,7 @@
 package ir.maktab58.homework8.models;
 
+import ir.maktab58.homework8.models.products.Product;
+
 import java.util.ArrayList;
 
 /**
@@ -7,9 +9,9 @@ import java.util.ArrayList;
  */
 public class Cart {
     private ArrayList<Product> products;
-    private Costumer customer;
+    private Customer customer;
 
-    public Cart(Costumer customer) {
+    public Cart(Customer customer) {
         this.customer = customer;
     }
 
@@ -25,11 +27,11 @@ public class Cart {
         this.products.add(newProduct);
     }
 
-    public Costumer getCustomer() {
+    public Customer getCustomer() {
         return customer;
     }
 
-    public void setCustomer(Costumer customer) {
+    public void setCustomer(Customer customer) {
         this.customer = customer;
     }
 
