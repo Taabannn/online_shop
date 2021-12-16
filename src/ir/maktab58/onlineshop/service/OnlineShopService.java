@@ -164,50 +164,19 @@ public class OnlineShopService implements OnlineShopInterface {
         cartService.deleteCart(cart, customerId);
     }
 
-    /*
-    @Override
-    public void deleteProductFromCart(int customerId, Cart cart) {
-        System.out.println(cart);
-        System.out.println("Enter the productId that you want to delete.");
-        Scanner scanner = new Scanner(System.in);
-        int productId = Integer.parseInt(scanner.nextLine().trim());
-        boolean isExisted = false;
-        for (Product product : cart.getProducts()) {
-            if (product.getId() == productId) {
-                isExisted = true;
-                break;
-            }
-        }
-        if (!isExisted) {
-            System.out.println("This productId:" + productId + "is not existed.");
-            return;
-        }
-        CartDataBaseAccess cartAccess = new CartDataBaseAccess();
-        cartAccess.deleteARow(customerId, productId);
+    public void confirmShopping(int customerId) {
+
     }
 
-    @Override
-    public void confirmShopping(Cart cart, long totalPrice, int customerId) {
-        updateOnlineShopProperties();
-        long balance = costumers.get(customerId - 1).getInitialBalance();
-        if (balance < totalPrice) {
-            System.out.println("You should deposit your balance first.");
-        } else {
-            System.out.println("Your balance is enough.");
-            customerAccess.updateCustomerBalance(customerId, (long) balance - totalPrice);
-            ArrayList<Product> products = cart.getProducts();
-            this.products = productDataBaseAccess.getAllProducts();
-            for (Product productInCart : products) {
-                for (Product product : this.products) {
-                    if (product.equals(productInCart)) {
-                        int count = product.getCount() - productInCart.getCount();
-                        productDataBaseAccess.updateCountOfProducts(product, count);
-                        CartDataBaseAccess cartAccess = new CartDataBaseAccess();
-                        cartAccess.deleteARow(customerId, product.getId());
-                    }
-                }
+    public List<Product> getNotEnoughProducts(int customerId) {
+        List<Cart> customerCarts = getCustomerCarts(customerId);
+        List<Product> products = new ArrayList<>();
+        customerCarts.forEach(cart -> {
+            if (cart.getProduct().getCount() < cart.getQuantity()) {
+                products.add(cart.getProduct());
+                cartService.deleteCart(cart, customerId);
             }
-        }
+        });
+        return products;
     }
-*/
 }
