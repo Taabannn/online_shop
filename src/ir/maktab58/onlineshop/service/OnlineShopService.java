@@ -154,6 +154,16 @@ public class OnlineShopService implements OnlineShopInterface {
                 .reduce(0l, Long::sum);
     }
 
+    public void deleteAnItemFromCart(List<Cart> customerCarts, int cartId, int customerId) {
+        Optional<Cart> foundedCart = customerCarts.stream().filter(cart -> cartId == cart.getId()).findFirst();
+        if (foundedCart.isEmpty())
+            throw OnlineShopExceptions.builder()
+                    .message(cartId + " is not existed.")
+                    .errorCode(400).build();
+        Cart cart = foundedCart.get();
+        cartService.deleteCart(cart, customerId);
+    }
+
     /*
     @Override
     public void deleteProductFromCart(int customerId, Cart cart) {
@@ -174,25 +184,6 @@ public class OnlineShopService implements OnlineShopInterface {
         }
         CartDataBaseAccess cartAccess = new CartDataBaseAccess();
         cartAccess.deleteARow(customerId, productId);
-    }
-
-    @Override
-    public void printAddedItemsWithPriceToCart(Cart cart, long totalPrice) {
-        ArrayList<Product> productsInCart = cart.getProducts();
-        for (Product product : productsInCart) {
-            System.out.println(product);
-        }
-        System.out.println("********************");
-        System.out.println("Total Price: " + totalPrice);
-    }
-
-    private long calcTotalPrice(Cart cart){
-        long totalPrice = 0;
-        ArrayList<Product> productsInCart = cart.getProducts();
-        for (Product product : productsInCart) {
-            totalPrice = product.getCount() * product.getPrice();
-        }
-        return totalPrice;
     }
 
     @Override

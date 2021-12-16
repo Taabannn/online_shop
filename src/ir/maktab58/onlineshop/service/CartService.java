@@ -18,4 +18,8 @@ public class CartService {
     public List<Cart> getCustomerCarts(int customerId) {
         return cartDao.findCartsByCustomerId(customerId);
     }
+
+    public void deleteCart(Cart cart, int customerId) {
+        cartDao.deleteCartByCustomerId(cart, customerId);
+    }
 }

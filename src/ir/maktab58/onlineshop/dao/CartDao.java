@@ -24,4 +24,15 @@ public class CartDao extends BaseDaoInterfaceImpl<Cart> {
         session.close();
         return carts;
     }
+
+    public void deleteCartByCustomerId(Cart cart, int customerId) {
+        Session session = SessionUtil.getSession();
+        Transaction transaction = session.beginTransaction();
+        Query query = session.createQuery("delete from Cart cart WHERE cart.id=:cartId AND cart.customer.id=:customerId");
+        query.setParameter("cartId", cart.getId());
+        query.setParameter("customerId", customerId);
+        query.executeUpdate();
+        transaction.commit();
+        session.close();
+    }
 }

@@ -121,6 +121,12 @@ public class OnlineShopSys {
     }
 
     private void deleteProductFromCart(int customerId) {
+        List<Cart> customerCarts = onlineShop.getCustomerCarts(customerId);
+        customerCarts.forEach(System.out::println);
+        System.out.println("Enter cartId that you want to delete: ");
+        int cartId = Integer.parseInt(scanner.nextLine().trim());
+        onlineShop.deleteAnItemFromCart(customerCarts, cartId, customerId);
+        System.out.println("This Item has removed successfully.");
     }
 
     private void addProductToCart(int customerId) {
