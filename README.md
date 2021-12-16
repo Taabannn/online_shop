@@ -9,7 +9,7 @@ Here you see a simple implementation of online_shop by using hibernate framework
 
 . Download the files by pressing download button or clone this repo by the the following command in your git bash:
 
-       git clone https://github.com/Taabannn/bank_system.git
+       git clone https://github.com/Taabannn/online_shop.git
        
 . Open project in your Java IDE.
 
