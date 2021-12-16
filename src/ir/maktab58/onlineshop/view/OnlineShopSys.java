@@ -2,6 +2,7 @@ package ir.maktab58.onlineshop.view;
 
 import ir.maktab58.onlineshop.enumation.ReadingItemsTypes;
 import ir.maktab58.onlineshop.exceptions.OnlineShopExceptions;
+import ir.maktab58.onlineshop.models.Cart;
 import ir.maktab58.onlineshop.models.products.Product;
 import ir.maktab58.onlineshop.models.products.readingItems.Book;
 import ir.maktab58.onlineshop.models.products.readingItems.Magazine;
@@ -111,6 +112,12 @@ public class OnlineShopSys {
     }
 
     private void printAddedItemsToCart(int customerId) {
+        List<Cart> customerCarts = onlineShop.getCustomerCarts(customerId);
+        long totalPrice = onlineShop.calculateTotalPrice(customerCarts);
+        System.out.println("********** Your Cart **********");
+        customerCarts.forEach(System.out::println);
+        System.out.println("*******************************\n" +
+                "Total Price: " + totalPrice);
     }
 
     private void deleteProductFromCart(int customerId) {

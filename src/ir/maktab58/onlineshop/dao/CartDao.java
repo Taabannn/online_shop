@@ -1,9 +1,27 @@
 package ir.maktab58.onlineshop.dao;
 
+import ir.maktab58.onlineshop.dao.singletonsessionfactory.SessionUtil;
 import ir.maktab58.onlineshop.models.Cart;
+import ir.maktab58.onlineshop.models.products.Product;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.query.Query;
+
+import java.util.List;
 
 /**
  * @author Taban Soleymani
  */
 public class CartDao extends BaseDaoInterfaceImpl<Cart> {
+    public List<Cart> findCartsByCustomerId(int customerId) {
+        List<Cart> carts;
+        Session session = SessionUtil.getSession();
+        Transaction transaction = session.beginTransaction();
+        Query<Cart> query = session.createQuery("FROM Cart cart where cart.customer.id=:customerId", Cart.class);
+        query.setParameter("customerId", customerId);
+        carts = query.getResultList();
+        transaction.commit();
+        session.close();
+        return carts;
+    }
 }

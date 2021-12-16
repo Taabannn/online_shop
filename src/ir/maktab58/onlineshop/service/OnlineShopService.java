@@ -115,7 +115,7 @@ public class OnlineShopService implements OnlineShopInterface {
             return products;
         }
         throw OnlineShopExceptions.builder()
-                .message("Invalid type of electronc-device Item: " + typeOfDevice)
+                .message("Invalid type of electronic-device Item: " + typeOfDevice)
                 .errorCode(400).build();
     }
 
@@ -144,32 +144,17 @@ public class OnlineShopService implements OnlineShopInterface {
         customerService.updateCustomerBalance(customer);
     }
 
-    /*private void addItemToCart(int customerId, String type){
-        updateOnlineShopProperties(type);
-        for (Product product : products) {
-            System.out.println(product);
-        }
-        System.out.println("Enter id of Item that you want add it to your cart.");
-        Scanner scanner = new Scanner(System.in);
-        int id = Integer.parseInt(scanner.nextLine().trim());
-        if (id > products.size()) {
-            System.out.println("Invalid Id, please try again.");
-            return;
-        }
-        System.out.println("Enter count of Items that you want add it to your cart.");
-        int count = Integer.parseInt(scanner.nextLine().trim());
-        if (count > products.get(id - 1).getCount()) {
-            System.out.println("Sorry! There is not enough shoes with id:" + id + " in our storage.");
-            return;
-        }
-        Cart cart = new Cart(costumers.get(customerId - 1));
-        cart.addNewProduct(products.get(id - 1));
-        CartDataBaseAccess cartAccess = new CartDataBaseAccess();
-        boolean isAdded = cartAccess.saveCart(cart);
-        if (isAdded)
-            System.out.println("This item is added successfully to your cart.");
+    public List<Cart> getCustomerCarts(int customerId) {
+        return cartService.getCustomerCarts(customerId);
     }
 
+    public long calculateTotalPrice(List<Cart> customerCarts) {
+        return customerCarts.stream()
+                .map(cart -> cart.getQuantity() * cart.getProduct().getPrice())
+                .reduce(0l, Long::sum);
+    }
+
+    /*
     @Override
     public void deleteProductFromCart(int customerId, Cart cart) {
         System.out.println(cart);
@@ -233,12 +218,5 @@ public class OnlineShopService implements OnlineShopInterface {
             }
         }
     }
-
-    private void depositCustomerBalance(int customerId){
-        updateOnlineShopProperties();
-        System.out.println("How much do you want to deposit your account?");
-        Scanner scanner = new Scanner(System.in);
-        long amount = Long.parseLong(scanner.nextLine().trim());
-        customerAccess.updateCustomerBalance(customerId, costumers.get(customerId - 1).getInitialBalance() + amount);
-    }*/
+*/
 }

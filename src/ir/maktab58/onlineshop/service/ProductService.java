@@ -1,6 +1,7 @@
 package ir.maktab58.onlineshop.service;
 
 import ir.maktab58.onlineshop.dao.ProductDao;
+import ir.maktab58.onlineshop.models.Cart;
 import ir.maktab58.onlineshop.models.products.Product;
 import ir.maktab58.onlineshop.models.products.Shoe;
 import ir.maktab58.onlineshop.models.products.electronicdevices.ElectronicDevices;
@@ -19,6 +20,7 @@ public class ProductService {
     private  final ProductDao<ReadingItems> readingItemsDao = new ProductDao<>();
     private  final ProductDao<Shoe> shoeProductDao = new ProductDao<>();
     private final ProductDao<ElectronicDevices> eDeviceDao = new ProductDao<>();
+    private final ProductDao<Product> productDao = new ProductDao<>();
 
     public List<Product> getMagazines() {
         return readingItemsDao.getAllProductsFromThisType(Magazine.class);
