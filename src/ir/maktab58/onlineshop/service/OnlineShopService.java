@@ -3,22 +3,15 @@ package ir.maktab58.onlineshop.service;
 import ir.maktab58.onlineshop.enumation.ElectronicDevicesTypes;
 import ir.maktab58.onlineshop.enumation.ReadingItemsTypes;
 import ir.maktab58.onlineshop.exceptions.OnlineShopExceptions;
-import ir.maktab58.onlineshop.models.Admin;
 import ir.maktab58.onlineshop.models.Cart;
 import ir.maktab58.onlineshop.models.Customer;
 import ir.maktab58.onlineshop.models.products.Product;
-import ir.maktab58.onlineshop.models.products.electronicdevices.ElectronicDevices;
-import ir.maktab58.onlineshop.models.products.readingItems.Book;
-import ir.maktab58.onlineshop.models.products.readingItems.Magazine;
-import ir.maktab58.onlineshop.models.products.readingItems.ReadingItems;
 import ir.maktab58.onlineshop.service.singletonvalidator.NationalCodeValidator;
 import ir.maktab58.onlineshop.service.singletonvalidator.UserAndPassValidator;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Scanner;
-import java.util.function.Predicate;
 
 /**
  * @author Taban Soleymani
@@ -119,6 +112,7 @@ public class OnlineShopService implements OnlineShopInterface {
                 .errorCode(400).build();
     }
 
+    @Override
     public int addItemToCart(int customerId, int productId, int count) {
         Optional<Product> foundedProduct = products.stream().filter(product -> productId == product.getId()).findFirst();
         if (foundedProduct.isEmpty())
@@ -138,6 +132,7 @@ public class OnlineShopService implements OnlineShopInterface {
         return cartService.saveCart(cart);
     }
 
+    @Override
     public void depositCustomerBalance(long charge, int customerId) {
         Customer customer = customerService.getCustomerById(customerId);
         customer.setInitialBalance(customer.getInitialBalance() + charge);
@@ -148,12 +143,14 @@ public class OnlineShopService implements OnlineShopInterface {
         return cartService.getCustomerCarts(customerId);
     }
 
+    @Override
     public long calculateTotalPrice(List<Cart> customerCarts) {
         return customerCarts.stream()
                 .map(cart -> cart.getQuantity() * cart.getProduct().getPrice())
                 .reduce(0l, Long::sum);
     }
 
+    @Override
     public void deleteAnItemFromCart(List<Cart> customerCarts, int cartId, int customerId) {
         Optional<Cart> foundedCart = customerCarts.stream().filter(cart -> cartId == cart.getId()).findFirst();
         if (foundedCart.isEmpty())
@@ -164,10 +161,27 @@ public class OnlineShopService implements OnlineShopInterface {
         cartService.deleteCart(cart, customerId);
     }
 
+    @Override
     public void confirmShopping(int customerId) {
-
+        List<Cart> customerCarts = getCustomerCarts(customerId);
+        long totalPrice = calculateTotalPrice(customerCarts);
+        Customer customer = customerService.getCustomerById(customerId);
+        if (customer.getInitialBalance() < totalPrice) {
+            throw OnlineShopExceptions.builder()
+                    .message("You should deposit your balance: +" + (customer.getInitialBalance() - totalPrice))
+                    .errorCode(400).build();
+        }
+        customer.setInitialBalance(customer.getInitialBalance() - totalPrice);
+        customerService.updateCustomerBalance(customer);
+        customerCarts.forEach(cart -> {
+            Product product = cart.getProduct();
+            product.setCount(product.getCount() - cart.getQuantity());
+            productService.updateProductCount(product);
+            cartService.deleteCart(cart, customerId);
+        });
     }
 
+    @Override
     public List<Product> getNotEnoughProducts(int customerId) {
         List<Cart> customerCarts = getCustomerCarts(customerId);
         List<Product> products = new ArrayList<>();

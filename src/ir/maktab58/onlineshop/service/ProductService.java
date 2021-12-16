@@ -1,7 +1,6 @@
 package ir.maktab58.onlineshop.service;
 
 import ir.maktab58.onlineshop.dao.ProductDao;
-import ir.maktab58.onlineshop.models.Cart;
 import ir.maktab58.onlineshop.models.products.Product;
 import ir.maktab58.onlineshop.models.products.Shoe;
 import ir.maktab58.onlineshop.models.products.electronicdevices.ElectronicDevices;
@@ -40,5 +39,9 @@ public class ProductService {
 
     public List<Product> getRadios() {
         return eDeviceDao.getAllProductsFromThisType(Radio.class);
+    }
+
+    public void updateProductCount(Product product) {
+        productDao.update(product);
     }
 }

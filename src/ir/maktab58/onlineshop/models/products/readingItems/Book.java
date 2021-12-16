@@ -2,7 +2,6 @@ package ir.maktab58.onlineshop.models.products.readingItems;
 
 import lombok.*;
 
-import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 /**

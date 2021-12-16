@@ -2,10 +2,7 @@ package ir.maktab58.onlineshop.models.products.readingItems;
 
 import ir.maktab58.onlineshop.enumation.MagazineType;
 import lombok.*;
-import org.hibernate.annotations.Polymorphism;
-import org.hibernate.annotations.PolymorphismType;
 
-import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;

@@ -1,12 +1,8 @@
 package ir.maktab58.onlineshop.view;
 
-import ir.maktab58.onlineshop.enumation.ReadingItemsTypes;
 import ir.maktab58.onlineshop.exceptions.OnlineShopExceptions;
 import ir.maktab58.onlineshop.models.Cart;
 import ir.maktab58.onlineshop.models.products.Product;
-import ir.maktab58.onlineshop.models.products.readingItems.Book;
-import ir.maktab58.onlineshop.models.products.readingItems.Magazine;
-import ir.maktab58.onlineshop.models.products.readingItems.ReadingItems;
 import ir.maktab58.onlineshop.service.OnlineShopService;
 
 import java.util.List;
@@ -138,6 +134,8 @@ public class OnlineShopSys {
         if (notEnoughProducts.size() != 0) {
             System.out.println("These products have been deleted from your cart, because product count is not enough.");
             notEnoughProducts.forEach(System.out::println);
+        } else {
+            System.out.println("No products has been added to your cart.");
         }
     }
 

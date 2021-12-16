@@ -1,11 +1,11 @@
 package ir.maktab58.onlineshop.models.products;
 
-import ir.maktab58.onlineshop.models.Cart;
-import lombok.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author Taban Soleymani

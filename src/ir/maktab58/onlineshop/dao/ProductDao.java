@@ -2,9 +2,6 @@ package ir.maktab58.onlineshop.dao;
 
 import ir.maktab58.onlineshop.dao.singletonsessionfactory.SessionUtil;
 import ir.maktab58.onlineshop.models.products.Product;
-import ir.maktab58.onlineshop.models.products.readingItems.Book;
-import ir.maktab58.onlineshop.models.products.readingItems.Magazine;
-import ir.maktab58.onlineshop.models.products.readingItems.ReadingItems;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
