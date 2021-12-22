@@ -1,6 +1,6 @@
 package ir.maktab58.onlineshop.dao;
 
-import ir.maktab58.onlineshop.dao.singletonsessionfactory.SessionUtil;
+import ir.maktab58.onlineshop.utils.SessionUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;

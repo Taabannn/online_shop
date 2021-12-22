@@ -1,4 +1,4 @@
-package ir.maktab58.onlineshop.dao.singletonsessionfactory;
+package ir.maktab58.onlineshop.utils;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
