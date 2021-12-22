@@ -1,6 +1,6 @@
 package ir.maktab58.onlineshop.dao;
 
-import ir.maktab58.onlineshop.dao.singletonsessionfactory.SessionUtil;
+import ir.maktab58.onlineshop.utils.SessionUtil;
 import ir.maktab58.onlineshop.models.Customer;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * @author Taban Soleymani
  */
-public class CustomerDao extends BaseDaoInterfaceImpl<Customer> {
+public class CustomerDao extends BaseDaoImpl<Customer> {
 
     public List<Customer> findCustomerByUser(String username) {
         List<Customer> customers;

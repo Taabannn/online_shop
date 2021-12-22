@@ -1,6 +1,6 @@
 package ir.maktab58.onlineshop.dao;
 
-import ir.maktab58.onlineshop.dao.singletonsessionfactory.SessionUtil;
+import ir.maktab58.onlineshop.utils.SessionUtil;
 import ir.maktab58.onlineshop.models.Cart;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * @author Taban Soleymani
  */
-public class CartDao extends BaseDaoInterfaceImpl<Cart> {
+public class CartDao extends BaseDaoImpl<Cart> {
     public List<Cart> findCartsByCustomerId(int customerId) {
         List<Cart> carts;
         Session session = SessionUtil.getSession();

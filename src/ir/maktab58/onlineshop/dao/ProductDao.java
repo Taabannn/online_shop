@@ -1,6 +1,6 @@
 package ir.maktab58.onlineshop.dao;
 
-import ir.maktab58.onlineshop.dao.singletonsessionfactory.SessionUtil;
+import ir.maktab58.onlineshop.utils.SessionUtil;
 import ir.maktab58.onlineshop.models.products.Product;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * @author Taban Soleymani
  */
-public class ProductDao<T extends Product> extends BaseDaoInterfaceImpl<Product> {
+public class ProductDao<T extends Product> extends BaseDaoImpl<Product> {
     public <E> List<Product> getAllProductsFromThisType(Class<E> cl) {
         List<Product> products;
         Session session = SessionUtil.getSession();

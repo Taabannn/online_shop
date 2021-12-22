@@ -1,4 +1,4 @@
-package ir.maktab58.onlineshop.dao.singletonsessionfactory;
+package ir.maktab58.onlineshop.utils;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -11,7 +11,7 @@ public class SessionUtil {
     private static final SessionUtil instance = new SessionUtil();
     private final SessionFactory sessionFactory;
 
-    public static SessionUtil getInstance() {
+    public static SessionUtil getSingletonInstance() {
         return instance;
     }
 
@@ -22,7 +22,7 @@ public class SessionUtil {
     }
 
     public static Session getSession() {
-        Session session = getInstance().sessionFactory.openSession();
+        Session session = getSingletonInstance().sessionFactory.openSession();
         return session;
     }
 }
