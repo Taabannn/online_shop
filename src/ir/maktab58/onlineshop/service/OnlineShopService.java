@@ -6,8 +6,8 @@ import ir.maktab58.onlineshop.exceptions.OnlineShopExceptions;
 import ir.maktab58.onlineshop.models.Cart;
 import ir.maktab58.onlineshop.models.Customer;
 import ir.maktab58.onlineshop.models.products.Product;
-import ir.maktab58.onlineshop.service.singletonvalidator.NationalCodeValidator;
-import ir.maktab58.onlineshop.service.singletonvalidator.UserAndPassValidator;
+import ir.maktab58.onlineshop.service.validator.NationalCodeValidator;
+import ir.maktab58.onlineshop.service.validator.UserAndPassValidator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,8 +60,8 @@ public class OnlineShopService implements OnlineShopInterface {
     }
 
     private void validateUserPassAndNationalCode(String username, String password, String nationalCode) {
-        boolean isNationalCodeValid = NationalCodeValidator.getInstance().isNationalCodeValid(nationalCode);
-        boolean isUserAndPassValid = UserAndPassValidator.getInstance().isUserAndPassValid(username, password);
+        boolean isNationalCodeValid = NationalCodeValidator.getSingletonInstance().isNationalCodeValid(nationalCode);
+        boolean isUserAndPassValid = UserAndPassValidator.getSingletonInstance().isUserAndPassValid(username, password);
         if (!isNationalCodeValid)
             throw OnlineShopExceptions.builder()
                     .message("The entered national code is not valid.")
