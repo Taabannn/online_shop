@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * @author Taban Soleymani
  */
-public class ProductDao<T extends Product> extends BaseDaoInterfaceImpl<Product> {
+public class ProductDao<T extends Product> extends BaseDaoImpl<Product> {
     public <E> List<Product> getAllProductsFromThisType(Class<E> cl) {
         List<Product> products;
         Session session = SessionUtil.getSession();

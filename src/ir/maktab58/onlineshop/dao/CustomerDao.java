@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * @author Taban Soleymani
  */
-public class CustomerDao extends BaseDaoInterfaceImpl<Customer> {
+public class CustomerDao extends BaseDaoImpl<Customer> {
 
     public List<Customer> findCustomerByUser(String username) {
         List<Customer> customers;

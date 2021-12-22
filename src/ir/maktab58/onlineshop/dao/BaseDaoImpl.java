@@ -11,7 +11,7 @@ import java.util.Map;
 /**
  * @author Taban Soleymani
  */
-public class BaseDaoInterfaceImpl<T> implements BaseDaoInterface<T> {
+public class BaseDaoImpl<T> implements BaseDao<T> {
     @Override
     public T get(Class<T> cl, Integer id) {
         Session session = SessionUtil.getSession();
